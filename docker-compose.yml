@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db_container
+    restart: always
+    volumes:
+      - /var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: TRAVEL
+      POSTGRES_USER: postgres
+      POSTGRES_DB: TRAVEL
+  bot:
+    build: ./app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      TOKEN: secret
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: TRAVEL
+      DB_NAME: TRAVEL
